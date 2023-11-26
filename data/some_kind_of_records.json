@@ -1,0 +1,44 @@
+[
+    {
+        "div_code": "MD",
+        "dept_code": "MD01",
+        "actual": 10,
+        "plan": 17
+    },
+    {
+        "div_code": "MD",
+        "dept_code": "MD02",
+        "actual": 21,
+        "plan": 22
+    },
+    {
+        "div_code": "MD",
+        "dept_code": "MD03",
+        "actual": 6,
+        "plan": 27
+    },
+    {
+        "div_code": "MM",
+        "dept_code": "MM01",
+        "actual": 5,
+        "plan": 10
+    },
+    {
+        "div_code": "MM",
+        "dept_code": "MM02",
+        "actual": 5,
+        "plan": 10
+    },
+    {
+        "div_code": "MI",
+        "dept_code": "MI01",
+        "actual": 6,
+        "plan": 22
+    },
+    {
+        "div_code": "MI",
+        "dept_code": "MI02",
+        "actual": 8,
+        "plan": 24
+    }
+]
