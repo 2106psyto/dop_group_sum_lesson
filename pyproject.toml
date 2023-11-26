@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "dop-group-sum-lesson"
+version = "0.1.0"
+description = ""
+authors = ["2106psyto <2106psyto@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+packages = [{include = "dop_group_sum_lesson"}]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+pydash = "^7.0.6"
+jsonschema = "^4.20.0"
+Jinja2 = "^3.1.2"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.4.3"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
