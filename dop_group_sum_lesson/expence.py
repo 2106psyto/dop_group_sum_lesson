@@ -6,7 +6,8 @@ import pydash as _
 
 
 def aggregate_by_div(divs):
-    with open(os.path.join(os.getcwd(),'src', 'input_data_schema.json')) as schema_file:
+    schema_file_dir = os.path.dirname(__file__)
+    with open(os.path.join(schema_file_dir, 'input_data_schema.json')) as schema_file:
         schema = json.load(schema_file)
         validate(instance=divs, schema=schema)
 

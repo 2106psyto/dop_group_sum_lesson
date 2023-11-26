@@ -12,7 +12,7 @@ def get_html_template():
     return env.get_template('page.html')
 
 def build_output_path(filename):
-    build_dir = 'dist'
+    build_dir = 'output'
     if not os.path.isdir(build_dir):
         os.mkdir(build_dir)
     return os.path.join(build_dir, filename)
@@ -37,4 +37,4 @@ if __name__ == '__main__':
             file.write(parse_html)
 
     except ValidationError:
-        print('Input data is ill-formed')
+        print('{}'.format(ValidationError.message))
