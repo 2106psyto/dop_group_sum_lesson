@@ -2,6 +2,7 @@ import pydash as _
 import json
 from jinja2 import Environment, FileSystemLoader
 import os
+from jsonschema import validate, ValidationError
 
 
 def aggregate_by_div(divs):
@@ -13,6 +14,16 @@ def aggregate_by_div(divs):
                     'planned': _.sum_by(o, ['plan'])})
     return sum_by_div
 
+def get_html_template():
+    env = Environment(loader=FileSystemLoader('./templates'), autoescape = True)
+    return env.get_template('page.html')
+
+def build_output_path(filename):
+    build_dir = 'dist'
+    if not os.path.isdir(build_dir):
+        os.mkdir(build_dir)
+    return os.path.join(build_dir, filename)
+
 
 if __name__ == '__main__':
     import argparse as ap
@@ -21,21 +32,22 @@ if __name__ == '__main__':
     parser.add_argument('infile', help='Input JSON file')
     args = parser.parse_args()
 
-    env = Environment(loader=FileSystemLoader('./templates'), autoescape = True)
-    template = env.get_template('page.html')
-
-    build_dir = 'dist'
-    if not os.path.isdir(build_dir):
-        os.mkdir(build_dir)
+    with open(os.path.join(os.getcwd(),'src', 'input_data_schema.json')) as schema_file:
+        schema = json.load(schema_file)
 
     with open(args.infile) as w:
         jj = json.load(w)
 
-    results = aggregate_by_div(jj)
-    print(results)
-    data = {'results':results}
-    parse_html = template.render(data)
+    try:
+        validate(instance=jj, schema=schema)
 
-    path = F'{build_dir}/result.html'
-    with open(path, 'w') as file:
-        file.write(parse_html)
+        results = {'results':aggregate_by_div(jj)}
+        template = get_html_template()
+        parse_html = template.render(results)
+
+        path = build_output_path('result.html')
+        with open(path, 'w') as file:
+            file.write(parse_html)
+
+    except ValidationError:
+        print('Input data is ill-formed')

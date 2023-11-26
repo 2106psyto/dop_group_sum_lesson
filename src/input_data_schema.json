@@ -1,0 +1,13 @@
+{
+    "type": "array",
+    "items": {
+        "type": "object",
+        "required": ["div_code", "dept_code", "actual", "plan"],
+        "properties": {
+            "div_code": {"type": "string"},
+            "dept_code": {"type": "string"},
+            "actual": {"type": "integer"},
+            "plan": {"type": "integer"}
+        }
+    }
+}
