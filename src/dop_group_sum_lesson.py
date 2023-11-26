@@ -1,17 +1,20 @@
-import pydash as _
+import argparse as ap
 import json
-from jinja2 import Environment, FileSystemLoader
 import os
+from jinja2 import Environment, FileSystemLoader
 from jsonschema import validate, ValidationError
+import pydash as _
 
 
 def aggregate_by_div(divs):
     aggregated = _.group_by(divs, ['div_code'])
     sum_by_div = _.map_(aggregated,
-                lambda o, k: {
-                    'div_code': k,
-                    'actual': _.sum_by(o, ['actual']),
-                    'planned': _.sum_by(o, ['plan'])})
+                lambda o, k:
+                    {
+                        'div_code': k,
+                        'actual': _.sum_by(o, ['actual']),
+                        'planned': _.sum_by(o, ['plan'])
+                    })
     return sum_by_div
 
 def get_html_template():
@@ -26,8 +29,6 @@ def build_output_path(filename):
 
 
 if __name__ == '__main__':
-    import argparse as ap
-
     parser = ap.ArgumentParser()
     parser.add_argument('infile', help='Input JSON file')
     args = parser.parse_args()
@@ -40,8 +41,9 @@ if __name__ == '__main__':
 
     try:
         validate(instance=jj, schema=schema)
-
-        results = {'results':aggregate_by_div(jj)}
+        import datetime
+        now = datetime.datetime.now().strftime('%Y/%m/%d %H:%M:%S')
+        results = {'calcdate':now,'results':aggregate_by_div(jj)}
         template = get_html_template()
         parse_html = template.render(results)
 
